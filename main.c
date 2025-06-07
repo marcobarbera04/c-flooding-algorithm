@@ -53,7 +53,7 @@ void *node_flooding(void *arg){
                 break;
             }else
             if(n == 0 || (n == -1 && (errno == EAGAIN || errno == EWOULDBLOCK))){
-                usleep(100000);
+                usleep(50000);
                 continue;
             }else{
                 perror("read");
@@ -62,7 +62,8 @@ void *node_flooding(void *arg){
         }
     }
 
-    if(node_data->received){
+    if(node_data->received && strlen(node_data->msg) > 0){
+        usleep(50000);
         for(int i = 0; i < MAX_NODES; i++){
             if(adj_matrix[id][i] == 1){
                 pthread_mutex_lock(&lock);
